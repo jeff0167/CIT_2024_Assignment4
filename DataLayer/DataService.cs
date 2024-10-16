@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 namespace DataLayer;
 
@@ -20,8 +21,20 @@ public class DataService
     public Product GetProduct(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        Product product = db.Products.ToList().Find(x => x.Id == id);
-        return product;
+        return db.Products.Include(x => x.Category).ToList().Find(x => x.Id == id);
+    }
+
+
+    public IList<Product> GetProductByCategory(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id);
+    }
+
+    public IList<Product> GetProductByName(string name)
+    {   
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.ProductName.Contains(name));
     }
 
     public Category CreateCategory(string name, string description)
