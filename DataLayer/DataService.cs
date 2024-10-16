@@ -21,10 +21,20 @@ public class DataService
     public Product GetProduct(int id)
     {
         NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().Find(x => x.Id == id);
+    }
 
-        //Product product = db.Products.Include(x => x.category).ToList().Find(x => x.Id == id);
-        Product product = db.Products.ToList().Find(x => x.Id == id);
-        return product;
+
+    public IList<Product> GetProductByCategory(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id);
+    }
+
+    public IList<Product> GetProductByName(string name)
+    {   
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.ProductName.Contains(name));
     }
 
     public Category CreateCategory(string name, string description)
