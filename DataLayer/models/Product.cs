@@ -10,11 +10,15 @@ namespace DataLayer
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
 
         public int UnitPrice { get; set; }
         public string QuantityPerUnit { get; set; }
         public int UnitsInStock { get; set; }
+
+        public Category category { get; set; }
+        public string CategoryName => category.Name;
+
+
     }
 
 }
