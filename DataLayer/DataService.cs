@@ -17,35 +17,69 @@ public class DataService
         return category;
     }
 
+    public Product GetProduct(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        Product product = db.Products.ToList().Find(x => x.Id == id);
+        return product;
+    }
+
     public Category CreateCategory(string name, string description)
     {
         NorthwindContext db = new NorthwindContext();
         Category category = new Category
         {
-            Id = GetCategories().Max(x => x.Id) +1,
+            Id = GetCategories().Max(x => x.Id) + 1,
             Name = name,
             Description = description
-        }; 
+        };
         db.Categories.Add(category);
         db.SaveChanges();
-        return category; 
+        return category;
     }
 
-    public bool DeleteCategory(int id) { 
+    public bool DeleteCategory(int id)
+    {
         bool result = false;
         try
         {
             NorthwindContext db = new NorthwindContext();
             db.Categories.Remove(GetCategory(id));
             db.SaveChanges();
-            result = true;
-            return result;
+
+            return result = true;
         }
-        catch (Exception ex)
+        catch
         {
-            result = false;
+
+
+            return result;
+
+        }
+    }
+
+    public bool UpdateCategory(int id, string name, string description)
+    {
+        bool result = false;
+        try
+        {
+            NorthwindContext db = new NorthwindContext();
+            Category category = GetCategory(id);
+            category.Name = name;
+            category.Description = description;
+
+            db.Categories.Update(category);
+            db.SaveChanges();
+
+            return result = true;
+
+        }
+        catch
+        {
 
             return result;
         }
     }
+
+
 }

@@ -31,7 +31,7 @@ public class DataServiceTests
         var category = service.GetCategory(1);
         Assert.Equal("Beverages", category.Name);
     }
-    
+
     [Fact]
     public void CreateCategory_ValidData_CreteCategoryAndReturnsNewObject()
     {
@@ -57,7 +57,6 @@ public class DataServiceTests
         category = service.GetCategory(category.Id);
         Assert.Null(category);
     }
-#if false
 
     [Fact]
     public void DeleteCategory_InvalidId_ReturnsFalse()
@@ -115,6 +114,8 @@ public class DataServiceTests
         Assert.Equal("Chai", product.Name);
         Assert.Equal("Beverages", product.CategoryName);
     }
+
+#if false
 
     [Fact]
     public void GetProductsByCategory_ValidId_ReturnsProductWithCategory()
