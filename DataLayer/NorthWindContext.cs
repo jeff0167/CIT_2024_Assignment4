@@ -9,7 +9,7 @@ namespace DataLayer;
 internal class NorthwindContext : DbContext
 {
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Product> Products { get; set; } // comment
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,11 +32,13 @@ internal class NorthwindContext : DbContext
     {
         modelBuilder.Entity<Product>().ToTable("products");
         modelBuilder.Entity<Product>().Property(x => x.Id).HasColumnName("productid");
-        modelBuilder.Entity<Product>().Property(x => x.ProductName).HasColumnName("productname");
+        modelBuilder.Entity<Product>().Property(x => x.Name).HasColumnName("productname");
         modelBuilder.Entity<Product>().Property(x => x.UnitPrice).HasColumnName("unitprice");
         modelBuilder.Entity<Product>().Property(x => x.QuantityPerUnit).HasColumnName("quantityperunit");
         modelBuilder.Entity<Product>().Property(x => x.UnitsInStock).HasColumnName("unitsinstock");
-        modelBuilder.Entity<Product>().Property(x => x.CategoryId).HasColumnName("categoryid");
+
+
+        //modelBuilder.Entity<Product>().Property(x => x.CategoryName).HasColumnName("categoryname");
     }
 
     private static void MapCategories(ModelBuilder modelBuilder)
