@@ -5,6 +5,8 @@ namespace DataLayer;
 
 public class DataService
 {
+
+    // CATEGORY
     public IList<Category> GetCategories()
     {
         NorthwindContext db = new NorthwindContext();
@@ -16,15 +18,6 @@ public class DataService
         NorthwindContext db = new NorthwindContext();
         Category category = db.Categories.ToList().Find(x => x.Id == id);
         return category;
-    }
-
-    public Product GetProduct(int id)
-    {
-        NorthwindContext db = new NorthwindContext();
-
-        //Product product = db.Products.Include(x => x.category).ToList().Find(x => x.Id == id);
-        Product product = db.Products.ToList().Find(x => x.Id == id);
-        return product;
     }
 
     public Category CreateCategory(string name, string description)
@@ -54,10 +47,7 @@ public class DataService
         }
         catch
         {
-
-
             return result;
-
         }
     }
 
@@ -79,10 +69,41 @@ public class DataService
         }
         catch
         {
-
             return result;
         }
     }
 
+    //  PRODUCT
 
+    public Product GetProduct(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().Find(x => x.Id == id);
+    }
+
+    public IList<Product> GetProductByCategory(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id); // some of the category ref are null, hence why it can't get the category name some times
+    }
+
+    public IList<Product> GetProductByName(string name)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.Name.Contains(name));
+    }
+
+    // ORDER
+
+    public IList<Order> GetOrders()
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Orders.ToList();
+    }
+
+    public Order GetOrder(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.Orders.ToList().Find(x => x.Id == id);
+    }
 }
