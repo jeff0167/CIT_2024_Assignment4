@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-
 namespace DataLayer;
 
 public class DataService
@@ -16,8 +14,7 @@ public class DataService
     public Category GetCategory(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        Category category = db.Categories.ToList().Find(x => x.Id == id);
-        return category;
+        return db.Categories.ToList().Find(x => x.Id == id);
     }
 
     public Category CreateCategory(string name, string description)
@@ -84,7 +81,7 @@ public class DataService
     public IList<Product> GetProductByCategory(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id); // some of the category ref are null, hence why it can't get the category name some times
+        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id);
     }
 
     public IList<Product> GetProductByName(string name)
@@ -104,6 +101,6 @@ public class DataService
     public Order GetOrder(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        return db.Orders.ToList().Find(x => x.Id == id);
+        return db.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category).ToList().Find(x => x.Id == id);
     }
 }

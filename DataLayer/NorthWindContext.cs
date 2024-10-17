@@ -69,29 +69,21 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Order>().Property(x => x.ShipName).HasColumnName("shipname");
         modelBuilder.Entity<Order>().Property(x => x.ShipCity).HasColumnName("shipcity");
 
-
-        //modelBuilder.Entity<Order>().HasMany(x => x.OrderDetails).WithMany(x => x.OrderId ==)
-        // modelBuilder.Entity<Order>().is(x => x.Order).WithMany(x => x.OrderDetails).HasForeignKey(x => x);
-        //modelBuilder.Entity<Order>().HasMany(x => x.OrderDetails).WithMany().HasForeignKey(x => x.OrderId); 
-        //modelBuilder .Entity<Order>().HasMany(x => x.OrderDetails).WithMany().HasForeignKey<Order>(a => a.OrderId);
-        //modelBuilder.Entity<Order>().HasMany(p => p.OrderDetails).WithOne(c => c.Order).HasForeignKey(c => c.Order);
-        // modelBuilder.Entity<Order>().HasMany(x => x.OrderDetails).WithMany(x => x.OrderId).HasForeignKey<Category>(a => a.Id);
-
-        //modelBuilder.Entity<Order>().HasMany(x => x.OrderDetails).WithOne().HasForeignKey(x => x.OrderId);
-
-       // modelBuilder .Entity<Order>() .HasOne(x => x.OrderDetails);
-
-       // modelBuilder .Entity<Order>() .HasMany(x => x.OrderDetails) .WithOne(x => x.Order) .IsRequired();
-
-        //modelBuilder .Entity<Order>() .HasOne(x => x.OrderDetails) .WithOne().IsRequired();
-
-        //modelBuilder .Entity<Order>() .HasOne(x => x.OrderDetails) .WithMany() .HasForeignKey(x => x.Id); // none of them work               Comment them out to get rid of errors
-
+        modelBuilder.Entity<Order>().HasMany(a => a.OrderDetails).WithOne(y => y.Order).HasForeignKey(z => z.OrderId).IsRequired();
     }
     private static void MapOrdersDetails(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<OrderDetails>().ToTable("orderdetails");
         modelBuilder.Entity<OrderDetails>().HasKey(x => new { x.OrderId, x.ProductId });
+        modelBuilder.Entity<OrderDetails>().Property(x => x.OrderId).HasColumnName("orderid");
+        modelBuilder.Entity<OrderDetails>().Property(x => x.ProductId).HasColumnName("productid");
+        modelBuilder.Entity<OrderDetails>().Property(x => x.UnitPrice).HasColumnName("unitprice");
+        modelBuilder.Entity<OrderDetails>().Property(x => x.Quantity).HasColumnName("quantity");
+        modelBuilder.Entity<OrderDetails>().Property(x => x.Discount).HasColumnName("discount");
         // modelBuilder.Entity<OrderDetails>().HasMany(p => p.).WithOne(c => c.Order).HasForeignKey(c => c.Order);
+
+        // modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany().HasForeignKey(c => c.OrderId).IsRequired(); // still need this one at some point
+
+
     }
 }
