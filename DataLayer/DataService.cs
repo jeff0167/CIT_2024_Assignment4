@@ -103,4 +103,26 @@ public class DataService
         NorthwindContext db = new NorthwindContext();
         return db.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category).ToList().Find(x => x.Id == id);
     }
+
+    public IList<OrderDetails> GetOrderDetailsByOrderId(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+        return db.OrderDetails.Include(x => x.Product).ToList().FindAll(x => x.OrderId == id);
+    }
+
+    //public IList<OrderDetails> GetOrderDetailsByProductId(int id)
+    //{
+    //    NorthwindContext db = new NorthwindContext();
+    //    return db.OrderDetails.Include(x => x.Order).Include(x => x.Product).Where(x => x.ProductId == id).ToList();
+
+
+    //}
+    public IList<OrderDetails> GetOrderDetailsByProductId(int id)
+    {
+        NorthwindContext db = new NorthwindContext();
+
+
+
+        return db.OrderDetails.Include(x => x.Order).ToList().FindAll(x => x.ProductId == id);
+    }
 }

@@ -83,7 +83,8 @@ internal class NorthwindContext : DbContext
         // modelBuilder.Entity<OrderDetails>().HasMany(p => p.).WithOne(c => c.Order).HasForeignKey(c => c.Order);
 
         // modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany().HasForeignKey(c => c.OrderId).IsRequired(); // still need this one at some point
-
+        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId); //Testing
+        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId); //Testing
 
     }
 }

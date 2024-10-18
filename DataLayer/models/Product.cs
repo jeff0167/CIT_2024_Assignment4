@@ -22,4 +22,10 @@ public class Product
     public string CategoryName => Category.Name;
     public string ProductName => Name;
 
+    public Order Order { get; set; } //tester
+
+    //tester
+    [Required]
+    public ICollection<OrderDetails> OrderDetails { get; set; }
 }
+
