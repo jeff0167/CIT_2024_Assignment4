@@ -4,8 +4,3 @@ GET {{WebApi_HostAddress}}/api/categories
 Accept: application/json
 
 ###
-
-GET {{WebApi_HostAddress}}/api/categories/111
-
-###
-POST {{WebApi_HostAddress}}/api/categories

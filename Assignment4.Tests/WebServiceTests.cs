@@ -23,7 +23,7 @@ public class WebServiceTests
         Assert.Equal("Beverages", data?.FirstElement("name"));
         Assert.Equal("Seafood", data?.LastElement("name"));
     }
-#if false
+
     [Fact]
     public async Task ApiCategories_GetWithValidCategoryId_OkAndCategory()
     {
@@ -32,7 +32,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.OK, statusCode);
         Assert.Equal("Beverages", category?.Value("name"));
     }
-
+#if false
     [Fact]
     public async Task ApiCategories_GetWithInvalidCategoryId_NotFound()
     {
@@ -227,7 +227,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
         Assert.Equal(0, products?.Count);
     }
-
+#endif
     // Helpers
 
     async Task<(JsonArray?, HttpStatusCode)> GetArray(string url)
@@ -276,7 +276,7 @@ public class WebServiceTests
         var response = await client.DeleteAsync(url);
         return response.StatusCode;
     }
-#endif 
+
 }
 
 static class HelperExt
