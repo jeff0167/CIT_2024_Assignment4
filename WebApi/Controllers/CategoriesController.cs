@@ -11,20 +11,33 @@ public class CategoriesController:ControllerBase
     
     DataService _dataService = new DataService();
     [HttpGet]
-//    [Route("api/categories")]
     public IActionResult GetCategories() {
 
     var categories= _dataService.GetCategories();    
     return Ok(categories);
     }
 
-    [HttpGet]
-    [Route("/{id}")]
+    [HttpGet("{id}")]
+
     public IActionResult GetCategory(int id) { 
     var category = _dataService.GetCategory(id);
-        return Ok(category);
+
+        if (category != null) {
+            return Ok(category);
+        }
+        return NotFound();
+        
     }
 
+
+
+    [HttpPost]
+    public IActionResult PostCategory([FromBody]CreateCategoryModel model) {
+
+        _dataService.CreateCategory(model.Name, model.Description);
+        return Created();
+
+    }
         
     
 }

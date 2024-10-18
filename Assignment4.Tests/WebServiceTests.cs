@@ -32,7 +32,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.OK, statusCode);
         Assert.Equal("Beverages", category?.Value("name"));
     }
-#if false
+
     [Fact]
     public async Task ApiCategories_GetWithInvalidCategoryId_NotFound()
     {
@@ -47,7 +47,7 @@ public class WebServiceTests
         var newCategory = new
         {
             Name = "Created",
-            Description = ""
+            Description = "KJH"
         };
         var (category, statusCode) = await PostData(CategoriesApi, newCategory);
 
@@ -69,7 +69,7 @@ public class WebServiceTests
 
         await DeleteData($"{CategoriesApi}/{id}");
     }
-
+#if false
     [Fact]
     public async Task ApiCategories_PutWithValidCategory_Ok()
     {

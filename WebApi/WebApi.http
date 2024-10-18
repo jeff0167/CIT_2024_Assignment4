@@ -4,3 +4,13 @@ GET {{WebApi_HostAddress}}/api/categories
 Accept: application/json
 
 ###
+POST {{WebApi_HostAddress}}/api/categories
+Accept: application/json
+
+Content-Type: application/json
+
+body {
+  "id": 1,
+  "name": "string",
+  "description": "string"}
+###
