@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DataLayer;
 
@@ -22,9 +17,6 @@ public class Product
     public string CategoryName => Category.Name;
     public string ProductName => Name;
 
-    public Order Order { get; set; } //tester
-
-    //tester
     [Required]
     public ICollection<OrderDetails> OrderDetails { get; set; }
 }

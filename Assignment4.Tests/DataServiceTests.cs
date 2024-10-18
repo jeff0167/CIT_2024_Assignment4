@@ -184,7 +184,6 @@ public class DataServiceTests
         Assert.Equal(0.0, orderDetails.Discount);
     }
 
-
     [Fact]
     public void GetOrderDetailByOrderId_ValidId_ReturnsProductNameUnitPriceAndQuantity()
     {
