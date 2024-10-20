@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer;
@@ -18,7 +16,7 @@ internal class NorthwindContext : DbContext
     {
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
-        optionsBuilder.UseNpgsql("host=localhost;db=nw;uid=postgres;pwd=postgres");
+        optionsBuilder.UseNpgsql("host=localhost;db=northwind;uid=postgres;pwd=postgres");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,9 +44,7 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Product>().Property(x => x.QuantityPerUnit).HasColumnName("quantityperunit");
         modelBuilder.Entity<Product>().Property(x => x.UnitsInStock).HasColumnName("unitsinstock");
 
-        //modelBuilder.Entity<Product>().HasOne(x => x.Category).WithOne().HasForeignKey<Category>(a => a.Id); // this one doesn't make if fail, but makes the ref sometimes be null, no idea why
         modelBuilder.Entity<Product>().Property(x => x.CategoryId).HasColumnName("categoryid");
-        //modelBuilder.Entity<Product>().Property(x => x.CategoryName).HasColumnName("categoryname"); // if this is uncommented it will fail
     }
 
     private static void MapCategories(ModelBuilder modelBuilder)
@@ -69,7 +65,7 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Order>().Property(x => x.ShipName).HasColumnName("shipname");
         modelBuilder.Entity<Order>().Property(x => x.ShipCity).HasColumnName("shipcity");
 
-        modelBuilder.Entity<Order>().HasMany(a => a.OrderDetails).WithOne(y => y.Order).HasForeignKey(z => z.OrderId).IsRequired();
+        // modelBuilder.Entity<Order>().HasMany(a => a.OrderDetails).WithOne(y => y.Order).HasForeignKey(z => z.OrderId).IsRequired();
     }
     private static void MapOrdersDetails(ModelBuilder modelBuilder)
     {
@@ -81,7 +77,7 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<OrderDetails>().Property(x => x.Quantity).HasColumnName("quantity");
         modelBuilder.Entity<OrderDetails>().Property(x => x.Discount).HasColumnName("discount");
 
-        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId).IsRequired(); 
-        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId).IsRequired(); 
+        //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId).IsRequired(); 
+        //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId).IsRequired(); 
     }
 }

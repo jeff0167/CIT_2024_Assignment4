@@ -69,11 +69,9 @@ public class WebServiceTests
 
         await DeleteData($"{CategoriesApi}/{id}");
     }
-#if false
     [Fact]
     public async Task ApiCategories_PutWithValidCategory_Ok()
     {
-
         var data = new
         {
             Name = "Created",
@@ -115,6 +113,7 @@ public class WebServiceTests
         await DeleteData($"{CategoriesApi}/{id}");
     }
 
+#if false
     [Fact]
     public async Task ApiCategories_PutWithInvalidCategory_NotFound()
     {
