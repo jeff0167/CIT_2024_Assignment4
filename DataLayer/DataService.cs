@@ -70,10 +70,9 @@ public class DataService
     Service<Product> productService = new Service<Product>();
     Service<Order> orderService = new Service<Order>();
     //No Services required for OrderDetail as all of OrderDetail methods contains Include()
-    //which we were unable to implement into our Service class
+    //which we were unable to implement into our DataService class
 
-
-    // CATEGORY
+    // CATEGORY - CRUD operations for passing tests
     public IList<Category> GetCategories()
     {
         return categoryService.GetAll();
@@ -99,8 +98,7 @@ public class DataService
         return categoryService.Update(id, new Category { Name = name, Description = description });
     }
 
-    //  PRODUCT
-
+    //  PRODUCT - CRUD operations for passing tests
     public Product GetProduct(int id)
     {
         return productService.GetById(id);
@@ -109,7 +107,9 @@ public class DataService
     public IList<Product> GetProductByCategory(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        return db.Products.Include(x => x.Category).ToList().FindAll(x => x.CategoryId == id);
+        //Future improvement to code, could be to use this convention (using Where), instead of using .ToList.Find() .Find(), as currently seen else where. 
+        return db.Products.Include(x => x.Category).Where(x => x.CategoryId == id).ToList();
+
     }
 
     public IList<Product> GetProductByName(string name)
@@ -118,8 +118,7 @@ public class DataService
         return db.Products.Include(x => x.Category).ToList().FindAll(x => x.Name.Contains(name));
     }
 
-    // ORDER
-
+    // ORDER - CRUD operations for passing 
     public IList<Order> GetOrders()
     {
         return orderService.GetAll();
@@ -131,8 +130,7 @@ public class DataService
         return db.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category).ToList().Find(x => x.Id == id);
     }
 
-    // ORDERDETAILS
-
+    // ORDERDETAILS - CRUD operations for passing 
     public IList<OrderDetails> GetOrderDetailsByOrderId(int id)
     {
         using NorthwindContext db = new NorthwindContext();

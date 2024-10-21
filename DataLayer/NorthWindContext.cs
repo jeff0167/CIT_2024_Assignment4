@@ -45,10 +45,8 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Product>().Property(x => x.UnitsInStock).HasColumnName("unitsinstock");
 
         modelBuilder.Entity<Product>().Property(x => x.CategoryId).HasColumnName("categoryid");
-
-        modelBuilder.Entity<Product>()
-    .Navigation(e => e.Category)
-    .AutoInclude();
+        modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
+        //Ensures access to category.name from product. 
 
     }
 
@@ -70,7 +68,7 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Order>().Property(x => x.ShipName).HasColumnName("shipname");
         modelBuilder.Entity<Order>().Property(x => x.ShipCity).HasColumnName("shipcity");
 
-        // modelBuilder.Entity<Order>().HasMany(a => a.OrderDetails).WithOne(y => y.Order).HasForeignKey(z => z.OrderId).IsRequired();
+
     }
     private static void MapOrdersDetails(ModelBuilder modelBuilder)
     {
@@ -82,9 +80,6 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<OrderDetails>().Property(x => x.Quantity).HasColumnName("quantity");
         modelBuilder.Entity<OrderDetails>().Property(x => x.Discount).HasColumnName("discount");
 
-
-        //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId).IsRequired();
-        //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId).IsRequired();
 
     }
 }

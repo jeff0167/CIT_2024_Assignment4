@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataLayer;
 
-interface IServiceGetById<T> // each one should be in it's own file, but easier to see them all here as there are so few and they inherit
+//Interfaces related to CRUD operations
+interface IServiceGetById<T>
 {
     T GetById(int id);
 }
@@ -34,7 +35,7 @@ interface IServiceUpdate<T>
     bool Update(int id, T item);
 }
 
-interface IServiceCRUD<T> : IServiceGetById<T>, IServiceGetAll<T>, IServiceCreate<T>, IServiceUpdate<T>, IServiceDelete<T> 
+interface IServiceCRUD<T> : IServiceGetById<T>, IServiceGetAll<T>, IServiceCreate<T>, IServiceUpdate<T>, IServiceDelete<T>
 {
 
 }

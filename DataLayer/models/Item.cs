@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace DataLayer
 {
-    public abstract class Item : ICloneable
+    //All classes that represent an item in the database should inherit from this class, apart from OrderDetails
+    public abstract class Item : ICloneable //Implements interface ICloneable from System namespace
     {
         public abstract int GetId();
         public abstract void SetId(int id);
-        
-        public object Clone() 
+        public object Clone()
         {
             return this.MemberwiseClone();
         }

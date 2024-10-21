@@ -12,12 +12,12 @@ public class CategoriesController : ControllerBase
     DataService _dataService;
     private readonly LinkGenerator _linkGenerator; //Used for generating URLs
 
-    //DataService _dataService = new DataService();
+
 
     public CategoriesController(DataService dataService, LinkGenerator linkGenerator)
     {
         _dataService = dataService;
-        _linkGenerator = linkGenerator;
+        _linkGenerator = linkGenerator; //Dependency injection
     }
 
     [HttpGet] //custom action
@@ -53,14 +53,16 @@ public class CategoriesController : ControllerBase
 
 
     [HttpPost]
-    public IActionResult PostCategory([FromBody] CreateCategoryModel model)
+    public IActionResult PostCategory(CreateCategoryModel model)
     {
 
         var category = _dataService.CreateCategory(model.Name, model.Description);
 
-        var categoryModel = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
-        categoryModel.Url = GetUrl(category.Id); //Maybe not neccesary, use function instead....
-        //return Created(CreateCategoryModel(category));
+        var categoryModel = CreateCategoryModel(category);
+
+        //    = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
+        //categoryModel.Url = GetUrl(category.Id);
+
         if (category != null)
         {
             return Created(categoryModel.Url, categoryModel);
@@ -86,7 +88,6 @@ public class CategoriesController : ControllerBase
     public IActionResult DeleteCategory(int id)
     {
         var category = _dataService.DeleteCategory(id);
-
         if (category)
         {
             return Ok(category);
@@ -95,7 +96,7 @@ public class CategoriesController : ControllerBase
     }
 
 
-
+    //HELPER METHODS:
     private string? GetUrl(int id)
     {
         return _linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { id }); //Generates the URL for the category with the given id.
