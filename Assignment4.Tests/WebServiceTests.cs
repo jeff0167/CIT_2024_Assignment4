@@ -212,7 +212,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
         Assert.Equal(0, products?.Count);
     }
-#if false
+
     [Fact]
     public async Task ApiProducts_NameContained_ListOfProduct()
     {
@@ -232,6 +232,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
         Assert.Equal(0, products?.Count);
     }
+#if false
 
 #endif
     // Helpers

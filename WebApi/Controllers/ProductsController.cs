@@ -35,6 +35,17 @@ public class ProductsController : ControllerBase
         return NotFound(productList);
     }
 
+    [HttpGet]
+    public IActionResult GetProductByName(string name)
+    {
+        var productList = _dataService.GetProductByName(name)
+            .Select(CreateProductModel);
+        if (productList.Count() > 0)
+        {
+            return Ok(productList);
+        }
+        return NotFound(productList);
+    }
 
     [HttpGet("{id}", Name = nameof(GetProduct))] //Name parameter gives this route its name, we can thus reference this route by that name in GetUrl method. 
 
