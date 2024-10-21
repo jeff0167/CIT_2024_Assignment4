@@ -1,44 +1,43 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 namespace DataLayer;
 
-// ideal if the whole class was generic
-public class CategoryService : IServiceCRUD<Category> // put each class in it's own file
+public class Service<T> : IServiceCRUD<T> where T : Item //Implements interface IServiceCRUD and determines type through abstract class Item
 {
-    public Category Create(Category item)
+    public T Create (T item)
     {
         NorthwindContext db = new NorthwindContext();
-        item.Id = GetAll().Max(x => x.Id) + 1;
-        db.Categories.Add(item);
+        item.SetId(GetAll().Max(x => x.GetId()) + 1);
+        db.Add(item);
         db.SaveChanges();
         return item;
     }
 
-    public IList<Category> GetAll()
+    public IList<T> GetAll()
     {
         NorthwindContext db = new NorthwindContext();
-        return db.Categories.ToList();
+        return db.Set<T>().ToList();
     }
 
-    public Category GetById(int id)
+    public T GetById(int id)
     {
         NorthwindContext db = new NorthwindContext();
-        return db.Categories.ToList().Find(x => x.Id == id);
+        return db.Set<T>().ToList().Find(x => x.GetId() == id);
     }
 
-    public bool Update(int id, Category item)
+    public bool Update(int id, T item) //Method to update any object type (Categories, Order, Product, ...)
     {
         bool result = false;
         try
         {
             NorthwindContext db = new NorthwindContext();
-            Category category = GetById(id);
-            category.Name = item.Name;
-            category.Description = item.Description; // you have to manualy specify the properties that has to be updated, not great :(
+            T genericObject = GetById(id); //Creating generic object and inserting the parameter ID
+            item.SetId(genericObject.GetId()); //Transfering ID to generic object type parameter 
 
-            db.Categories.Update(category);
+            genericObject = (T)item.Clone(); //Cloning a new instance of generic object type parameter and transferring updated values into it
+            db.Set<T>().Update(genericObject); //Updating the filled out generic object type
             db.SaveChanges();
-
-            return result = true;
+            return result = true; 
         }
         catch
         {
@@ -51,7 +50,7 @@ public class CategoryService : IServiceCRUD<Category> // put each class in it's 
         try
         {
             NorthwindContext db = new NorthwindContext();
-            db.Categories.Remove(GetById(id));
+            db.Set<T>().Remove(GetById(id));
             db.SaveChanges();
 
             return result = true;
@@ -66,11 +65,18 @@ public class CategoryService : IServiceCRUD<Category> // put each class in it's 
 
 public class DataService
 {
-    CategoryService categoryService = new CategoryService();
+    
+    Service<Category> categoryService = new Service<Category>();
+    Service<Product> productService = new Service<Product>();
+    Service<Order> orderService = new Service<Order>();
+    //No Services required for OrderDetail as all of OrderDetail methods contains Include()
+    //which we were unable to implement into our Service class
+
+
     // CATEGORY
     public IList<Category> GetCategories()
     {
-        return categoryService.GetAll(); // the issue is the name is defined in the test
+        return categoryService.GetAll(); 
     }
 
     public Category GetCategory(int id)
@@ -97,8 +103,7 @@ public class DataService
 
     public Product GetProduct(int id)
     {
-        NorthwindContext db = new NorthwindContext();
-        return db.Products.Include(x => x.Category).ToList().Find(x => x.Id == id);
+        return productService.GetById(id); 
     }
 
     public IList<Product> GetProductByCategory(int id)
@@ -117,8 +122,7 @@ public class DataService
 
     public IList<Order> GetOrders()
     {
-        NorthwindContext db = new NorthwindContext();
-        return db.Orders.ToList();
+        return orderService.GetAll();
     }
 
     public Order GetOrder(int id)

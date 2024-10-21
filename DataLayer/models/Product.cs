@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataLayer;
 
 namespace DataLayer;
 
-public class Product
+public class Product : Item
 {
     [Key]
     public int Id { get; set; }
@@ -18,5 +19,15 @@ public class Product
 
     [Required]
     public ICollection<OrderDetails> OrderDetails { get; set; }
+
+    public override int GetId()
+    {
+        return Id;
+    }
+
+    public override void SetId(int id)
+    {
+        Id = id;
+    }
 }
 
