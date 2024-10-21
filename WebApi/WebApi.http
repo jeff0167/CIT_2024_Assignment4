@@ -14,3 +14,13 @@ body {
   "name": "string",
   "description": "string"}
 ###
+
+GET {{WebApi_HostAddress}}/api/categories/1
+
+###
+POST {{WebApi_HostAddress}}/api/categories
+Content-Type: application/json
+{
+  "name": "test",
+  "description": "test"
+}

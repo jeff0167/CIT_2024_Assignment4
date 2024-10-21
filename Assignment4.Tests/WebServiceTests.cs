@@ -129,6 +129,8 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
     }
 
+
+
     [Fact]
     public async Task ApiCategories_DeleteWithValidId_Ok()
     {
@@ -155,6 +157,8 @@ public class WebServiceTests
 
         Assert.Equal(HttpStatusCode.OK, statusCode);
     }
+
+
 
     [Fact]
     public async Task ApiCategories_DeleteWithInvalidId_NotFound()
@@ -197,7 +201,7 @@ public class WebServiceTests
         Assert.Equal("Beverages", products?.FirstElement("categoryName"));
         Assert.Equal("Lakkalikööri", products?.LastElement("name"));
     }
-
+    //here
     [Fact]
     public async Task ApiProducts_CategoryInvalidId_EmptyListOfProductAndNotFound()
     {
@@ -226,6 +230,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
         Assert.Equal(0, products?.Count);
     }
+#if false
 #endif
     // Helpers
 
