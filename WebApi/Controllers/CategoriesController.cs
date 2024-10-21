@@ -26,7 +26,13 @@ public class CategoriesController : ControllerBase
 
         var categories = _dataService.GetCategories()
             .Select(CreateCategoryModel); //Generate URL for all Categories
-        return Ok(categories);
+        if (categories != null)
+        {
+            return Ok(categories);
+        }
+        return NotFound();
+
+
     }
 
     [HttpGet("{id}", Name = nameof(GetCategory))] //Name parameter gives this route its name, we can thus reference this route by that name in GetUrl method. 
@@ -44,16 +50,7 @@ public class CategoriesController : ControllerBase
 
     }
 
-    private CategoryModel? CreateCategoryModel(Category? category)
-    {
-        if (category == null) return null;
 
-        var categoryModel = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
-        categoryModel.Url = GetUrl(category.Id);
-        return categoryModel;
-
-
-    }
 
     [HttpPost]
     public IActionResult PostCategory([FromBody] CreateCategoryModel model)
@@ -62,22 +59,28 @@ public class CategoriesController : ControllerBase
         var category = _dataService.CreateCategory(model.Name, model.Description);
 
         var categoryModel = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
-        categoryModel.Url = GetUrl(category.Id);
+        categoryModel.Url = GetUrl(category.Id); //Maybe not neccesary, use function instead....
         //return Created(CreateCategoryModel(category));
-        return Created(categoryModel.Url, categoryModel);
+        if (category != null)
+        {
+            return Created(categoryModel.Url, categoryModel);
+        }
+        return BadRequest();
+
     }
 
-    //[HttpPut("{id}")]
-    //public IActionResult PutCategory(int id, [FromBody] CreateCategoryModel model)
-    //{
-    //    var category = _dataService.UpdateCategory(id, model.Name, model.Description);
+    [HttpPut("{id}")]
+    public IActionResult PutCategory(int id, CreateCategoryModel model)
+    {
+        var category = _dataService.UpdateCategory(id, model.Name, model.Description);
 
-    //    if (category)
-    //    {
-    //        return Ok(category);
-    //    }
-    //    return NotFound();
-    //}
+        if (category)
+        {
+            return Ok();
+        }
+        return NotFound();
+    }
+
 
     [HttpDelete("{id}")]
     public IActionResult DeleteCategory(int id)
@@ -92,35 +95,21 @@ public class CategoriesController : ControllerBase
     }
 
 
-    [HttpPut("{id}")]
-    public IActionResult UpdateCategory(int id, UpdateCategoryModel model)
-    {
-        var category = _dataService.GetCategory(id);
-
-        if (category == null)
-        {
-            return NotFound();
-        }
-
-        category.Name = model.Name;
-        category.Description = model.Description;
-
-
-        _dataService.UpdateCategory(id, model.Name, model.Description);
-
-        var categoryModel = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
-        categoryModel.Url = GetUrl(category.Id);
-
-        return Ok(categoryModel);
-
-
-
-    }
 
     private string? GetUrl(int id)
     {
         return _linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { id }); //Generates the URL for the category with the given id.
     }
 
+    private CategoryModel? CreateCategoryModel(Category? category)
+    {
+        if (category == null) return null;
+
+        var categoryModel = category.Adapt<CategoryModel>(); //Using Mapster to map the Category object to a CategoryModel object, dependency added via nugget (for WebAPI). Less boilercode
+        categoryModel.Url = GetUrl(category.Id);
+        return categoryModel;
+
+
+    }
 
 }

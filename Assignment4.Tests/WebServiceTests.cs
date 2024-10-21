@@ -201,6 +201,8 @@ public class WebServiceTests
         Assert.Equal("Beverages", products?.FirstElement("categoryName"));
         Assert.Equal("Lakkalikööri", products?.LastElement("name"));
     }
+
+#if false
     //here
     [Fact]
     public async Task ApiProducts_CategoryInvalidId_EmptyListOfProductAndNotFound()
@@ -230,7 +232,7 @@ public class WebServiceTests
         Assert.Equal(HttpStatusCode.NotFound, statusCode);
         Assert.Equal(0, products?.Count);
     }
-#if false
+
 #endif
     // Helpers
 

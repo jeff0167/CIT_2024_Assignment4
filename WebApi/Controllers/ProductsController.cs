@@ -20,6 +20,21 @@ public class ProductsController : ControllerBase
         _linkGenerator = linkGenerator;
     }
 
+    [HttpGet("category/{categoryId}", Name = nameof(GetProductByCategory))] //Nice to have, don't hardcode path
+    public IActionResult GetProductByCategory(int categoryId)
+    {
+        var productList = _dataService.GetProductByCategory(categoryId)
+            .Select(CreateProductModel); //Generate URL for all Products
+
+
+
+        if (productList != null)
+        {
+            return Ok(productList);
+        }
+        return NotFound();
+    }
+
 
     [HttpGet("{id}", Name = nameof(GetProduct))] //Name parameter gives this route its name, we can thus reference this route by that name in GetUrl method. 
 
@@ -43,9 +58,6 @@ public class ProductsController : ControllerBase
         var productModel = product.Adapt<ProductModel>(); //Using Mapster to map the Product object to a ProductModel object, dependency added via nugget (for WebAPI). Less boilercode
         productModel.Url = GetUrl(product.Id);
         return productModel;
-
-
-
 
     }
 
