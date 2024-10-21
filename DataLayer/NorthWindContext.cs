@@ -77,7 +77,12 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<OrderDetails>().Property(x => x.Quantity).HasColumnName("quantity");
         modelBuilder.Entity<OrderDetails>().Property(x => x.Discount).HasColumnName("discount");
 
+<<<<<<< Updated upstream
         //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId).IsRequired(); 
         //modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId).IsRequired(); 
+=======
+        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Order).WithMany(b => b.OrderDetails).HasForeignKey(c => c.OrderId).IsRequired();
+        modelBuilder.Entity<OrderDetails>().HasOne(b => b.Product).WithMany(b => b.OrderDetails).HasForeignKey(c => c.ProductId).IsRequired();
+>>>>>>> Stashed changes
     }
 }
