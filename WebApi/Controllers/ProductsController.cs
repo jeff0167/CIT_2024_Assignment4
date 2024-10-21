@@ -28,11 +28,11 @@ public class ProductsController : ControllerBase
 
 
 
-        if (productList != null)
+        if (productList.Count() > 0)
         {
             return Ok(productList);
         }
-        return NotFound();
+        return NotFound(productList);
     }
 
 
