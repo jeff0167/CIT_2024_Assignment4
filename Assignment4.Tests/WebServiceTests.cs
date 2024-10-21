@@ -69,10 +69,6 @@ public class WebServiceTests
 
         await DeleteData($"{CategoriesApi}/{id}");
     }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     [Fact]
     public async Task ApiCategories_PutWithValidCategory_Ok()
     {
@@ -117,7 +113,7 @@ public class WebServiceTests
         await DeleteData($"{CategoriesApi}/{id}");
     }
 
-#if false
+
     [Fact]
     public async Task ApiCategories_PutWithInvalidCategory_NotFound()
     {
