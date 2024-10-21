@@ -4,7 +4,7 @@ namespace DataLayer;
 
 public class Service<T> : IServiceCRUD<T> where T : Item //Implements interface IServiceCRUD and determines type through abstract class Item
 {
-    public T Create (T item)
+    public T Create(T item)
     {
         NorthwindContext db = new NorthwindContext();
         item.SetId(GetAll().Max(x => x.GetId()) + 1);
@@ -37,7 +37,7 @@ public class Service<T> : IServiceCRUD<T> where T : Item //Implements interface 
             genericObject = (T)item.Clone(); //Cloning a new instance of generic object type parameter and transferring updated values into it
             db.Set<T>().Update(genericObject); //Updating the filled out generic object type
             db.SaveChanges();
-            return result = true; 
+            return result = true;
         }
         catch
         {
@@ -65,7 +65,7 @@ public class Service<T> : IServiceCRUD<T> where T : Item //Implements interface 
 
 public class DataService
 {
-    
+
     Service<Category> categoryService = new Service<Category>();
     Service<Product> productService = new Service<Product>();
     Service<Order> orderService = new Service<Order>();
@@ -76,7 +76,7 @@ public class DataService
     // CATEGORY
     public IList<Category> GetCategories()
     {
-        return categoryService.GetAll(); 
+        return categoryService.GetAll();
     }
 
     public Category GetCategory(int id)
@@ -103,7 +103,7 @@ public class DataService
 
     public Product GetProduct(int id)
     {
-        return productService.GetById(id); 
+        return productService.GetById(id);
     }
 
     public IList<Product> GetProductByCategory(int id)
