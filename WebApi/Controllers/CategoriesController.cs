@@ -67,17 +67,17 @@ public class CategoriesController : ControllerBase
         return Created(categoryModel.Url, categoryModel);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult PutCategory(int id, [FromBody] CreateCategoryModel model)
-    {
-        var category = _dataService.UpdateCategory(id, model.Name, model.Description);
+    //[HttpPut("{id}")]
+    //public IActionResult PutCategory(int id, [FromBody] CreateCategoryModel model)
+    //{
+    //    var category = _dataService.UpdateCategory(id, model.Name, model.Description);
 
-        if (category)
-        {
-            return Ok(category);
-        }
-        return NotFound();
-    }
+    //    if (category)
+    //    {
+    //        return Ok(category);
+    //    }
+    //    return NotFound();
+    //}
 
     [HttpDelete("{id}")]
     public IActionResult DeleteCategory(int id)
@@ -101,8 +101,6 @@ public class CategoriesController : ControllerBase
         {
             return NotFound();
         }
-
-
 
         category.Name = model.Name;
         category.Description = model.Description;
